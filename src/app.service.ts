@@ -4,8 +4,9 @@ import { PDFLoader } from '@langchain/community/document_loaders/fs/pdf';
 
 @Injectable()
 export class AppService {
-  async processFile(file: any): Promise<string> {
-    const pdfBlob = new Blob([file.buffer]);
+  async processFile(file: { file: string }): Promise<string> {
+    const pdfBuffer = Buffer.from(file.file, 'base64');
+    const pdfBlob = new Blob([pdfBuffer]);
 
     const pdfDocument = await new PDFLoader(pdfBlob).load();
 
